@@ -15,13 +15,21 @@ import { Request, Response } from 'express';
 
 @Controller('/api/users')
 export class UserController {
-  @Get('set-cookie')
+  @Get('/view/hello')
+  viewHello(@Query('name') name: string, @Res() response: Response) {
+    response.render('index.html', {
+      title: 'Template Engine',
+      name: name,
+    });
+  }
+
+  @Get('/set-cookie')
   setCookie(@Query('name') name: string, @Res() response: Response) {
     response.cookie('name', name);
     response.status(200).send('Success Set Cookie');
   }
 
-  @Get('get-cookie')
+  @Get('/get-cookie')
   getCookie(@Req() request: Request): string {
     return request.cookies['name'];
   }
